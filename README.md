@@ -2,6 +2,8 @@
 
 Test your node project against multiple node version using docker.
 
+![Example](https://github.com/mrkmg/node-docker-test/blob/master/img/example.gif?raw=true)
+
 ## Installation
 
     npm install -g node-docker-test
