@@ -1,5 +1,5 @@
 {
-  "name": "docker-test",
+  "name": "node-docker-test",
   "version": "0.1.0",
   "description": "Test your node project against multiple node version using docker.",
   "main": "index.js",
