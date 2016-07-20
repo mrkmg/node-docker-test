@@ -1,0 +1,20 @@
+{
+  "name": "node-docker-test",
+  "version": "0.0.1",
+  "description": "Test your node project with Docker against multiple node versions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ndt": "./ndt"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "bluebird": "^3.4.1",
+    "minimist": "^1.2.0",
+    "pad": "^1.0.0"
+  }
+}
