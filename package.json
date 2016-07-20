@@ -1,7 +1,7 @@
 {
-  "name": "node-docker-test",
-  "version": "0.0.1",
-  "description": "Test your node project with Docker against multiple node versions.",
+  "name": "docker-test",
+  "version": "0.1.0",
+  "description": "Test your node project against multiple node version using docker.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
