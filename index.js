@@ -187,7 +187,7 @@ function setupTest(version, width, height, column, row)
         return Commands.test(version, function (data)
         {
             log.content += data.toString();
-            log.setScrollPerc(100);
+            log.scroll(20);
             screen.render();
         }).then(function ()
         {
@@ -284,7 +284,7 @@ function showResult(results)
     body.append(Blessed.box({
     width: '100%',
     height: 1,
-    top: top++,
+    top: top,
     content: 'Press Q to exit'
 }));
 

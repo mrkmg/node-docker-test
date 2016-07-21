@@ -1,6 +1,6 @@
 #Node Docker Test
 
-Test your node project against multiple node version using docker.
+Test your node project against multiple node versions using docker.
 
 ![Example](https://github.com/mrkmg/node-docker-test/blob/master/img/example.gif?raw=true)
 
@@ -71,7 +71,7 @@ You can also pass the following arguments to the CLI
 
 - **-c** Change the number of concurrent tests. Defaults to one less the number of processors on the system.
     - `ndt -c 3`
-- **-v** A comma separated list of version to test for. Defaults to all versions set into the configuration.
+- **-v** A comma separated list of versions to test for. Defaults to all versions set into the configuration.
     - `ndt -v 4.0.1,5.1,6`
 
 
