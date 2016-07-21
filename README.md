@@ -79,6 +79,7 @@ You can also pass the following arguments to the CLI
 
 - ndt uses `debian:stable` as the base image.
 - ndt just calls the docker command. You must be able to use docker as a user in order to use ndt. Please see your distribution for details on how to use docker.
+- each command in `setupCommand` and `command` will be joined with the "&&" operator. Therefor if any command fails, the setup or test is stopped.
 
 
 ### License
