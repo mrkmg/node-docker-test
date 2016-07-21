@@ -1,4 +1,4 @@
-var Docker, Promise, Commands, Blessed, Config, screen, titleTextBox, bodyBox, Run;
+var Docker, Promise, Commands, Blessed, Config, screen, Run, title;
 
 Promise = require('bluebird');
 Blessed = require('blessed');
@@ -6,24 +6,39 @@ Blessed = require('blessed');
 Docker = require('./lib/Docker');
 Commands = require('./lib/Commands');
 Config = require('./lib/Config');
+
 Run = require('./lib/Run');
+Setup = require('./lib/Setup');
+
+title = 'Node Docker Test - ' + Config.name;
+
+screen = Blessed.screen({
+    smartCSR: true
+});
+
+screen.key(['escape', 'C-c'], function ()
+{
+    return process.exit(1);
+});
+
+screen.title = title;
+
+Promise.try(main).then(function ()
+{
+    screen.destroy();
+    process.exit(0);
+}).catch(function ()
+{
+    screen.destroy();
+    console.error(e.message);
+    process.exit(1);
+});
 
 main();
 
 function main()
 {
-    var title = 'Node Docker Test - ' + Config.name;
-
-    screen = Blessed.screen({
-        smartCSR: true
-    });
-
-    screen.key(['escape', 'C-c'], function ()
-    {
-        return process.exit(1);
-    });
-
-    screen.title = title;
+    var titleTextBox, bodyBox;
 
     titleTextBox = Blessed.text({
         top: 0,
@@ -47,60 +62,18 @@ function main()
     switch (Config.action)
     {
         case 'setup':
-            setup();
+            return Setup(bodyBox, function ()
+            {
+                screen.render();
+            });
             break;
         case 'test':
-            Run(bodyBox, function () { screen.render(); }).catch(function(e)
+            return Run(bodyBox, function ()
             {
-                screen.destroy();
-                console.error(e.message);
-                process.exit(1);
-            }).then(function ()
-            {
-                screen.destroy();
-                process.exit(0);
+                screen.render();
             });
             break;
         default:
-            screen.destroy();
-            console.error(Config.action + ' is an unknown action');
+            throw new Error(Config.action + ' is an unknown action')
     }
-}
-
-function setup()
-{
-    var outputCallback, outputBox;
-
-    outputCallback = function (data)
-    {
-        outputBox.content += data.toString();
-        outputBox.setScrollPerc(100);
-        screen.render();
-    };
-
-    outputBox = Blessed.box({
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        scrollable: true
-    });
-
-    outputBox.focus();
-
-    bodyBox.append(outputBox);
-    screen.render();
-
-    Commands.setup(outputCallback).then(function ()
-    {
-        outputCallback("All done!, press Enter or ESC to quit\n");
-
-        screen.key(['enter'], function ()
-        {
-            return process.exit(0);
-        });
-    }).catch(function (e)
-    {
-        outputCallback(e);
-    });
 }
