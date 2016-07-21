@@ -48,7 +48,7 @@ The options available are:
 
 **setupCommand**
 
-`setupComamnd` can either be a string or an array of strings. This command will be run during the creation of the container. Use this to install dependencies.
+`setupCommand` can either be a string or an array of strings. This command will be run during the creation of the container. Use this to install dependencies.
 
 Default: *Empty*
 
