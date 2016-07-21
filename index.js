@@ -7,8 +7,8 @@ Docker = require('./lib/Docker');
 Commands = require('./lib/Commands');
 Config = require('./lib/Config');
 
-Run = require('./lib/Run');
-Setup = require('./lib/Setup');
+Run = require('./lib/actions/Run');
+Setup = require('./lib/actions/Setup');
 
 title = 'Node Docker Test - ' + Config.name;
 
@@ -18,23 +18,25 @@ screen = Blessed.screen({
 
 screen.key(['escape', 'C-c'], function ()
 {
+    screen.destroy();
     return process.exit(1);
 });
 
 screen.title = title;
 
-Promise.try(main).then(function ()
+Promise.try(function ()
+{
+    return main();
+}).then(function ()
 {
     screen.destroy();
     process.exit(0);
-}).catch(function ()
+}).catch(function (e)
 {
     screen.destroy();
-    console.error(e.message);
+    console.error(e);
     process.exit(1);
 });
-
-main();
 
 function main()
 {
@@ -62,18 +64,17 @@ function main()
     switch (Config.action)
     {
         case 'setup':
-            return Setup(bodyBox, function ()
-            {
-                screen.render();
-            });
+            return Setup(bodyBox, render);
             break;
         case 'test':
-            return Run(bodyBox, function ()
-            {
-                screen.render();
-            });
+            return Run(bodyBox, render);
             break;
         default:
             throw new Error(Config.action + ' is an unknown action')
     }
+}
+
+function render()
+{
+    return screen.render();
 }
