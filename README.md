@@ -124,10 +124,10 @@ Every single LTS version and the popular legacy versions.
 
 ### Other Notes
 
-- During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update the image to contain the versions specified at any time. It is recommended to re-run setup whenever there are new versions which match your config to prevent having to redownload nodejs every time your run your tests.
+- During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update the image to contain the versions specified at any time. It is recommended to re-run setup whenever there are new versions which match your config to prevent having to re-download the node binaries every time your run your tests.
 - ndt uses `debian:stable` as the base image.
-- ndt just calls the docker command. You must be able to use docker as a user in order to use ndt. Please see your distribution for details on how to use docker.
-- each command in `setupCommand` and `command` will be joined with the "&&" operator. Therefor if any command fails, the setup or test is stopped.
+- ndt just calls the docker command. You must be able to execute the `docker` application in order to use ndt. Please see your distribution for details on how to use docker.
+- Each command in `setupCommand` and `command` will be joined with the "&&" operator. Therefor if any command fails, the setup or test is stopped.
 
 
 ### License
