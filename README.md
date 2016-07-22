@@ -94,6 +94,7 @@ You must specify one keyword. You can chain any number of filters together. Whit
 | minor   | Resolves to a list of all the latest minor versions. Does not include legacy versions. |
 | patch   | Resolves to a list of all patch versions. Does not include legacy versions. |
 | legacy  | Resolves to a list of all the legacy versions, which are everything that starts with major version 0. |
+| all     | Resolves to every single version available. |
 
 
 #### Possible Filters
