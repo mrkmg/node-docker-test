@@ -1,5 +1,7 @@
 #Node Docker Test
 
+**ndt is still under heavy development. Expect potentially breaking changes until version 1 released.**
+
 Test your node project against multiple node versions using docker.
 
 ![Example](https://github.com/mrkmg/node-docker-test/blob/master/img/example.gif?raw=true)
