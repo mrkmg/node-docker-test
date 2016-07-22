@@ -37,7 +37,7 @@ You can add options for ndt to your package.json file to change the versions tes
                     "major",
                     "patch | gte:4.0 | lt:4.1"
                     "0.12",
-                    "5.1.0",
+                    "5.1.0"
                 ]
             }
         },
