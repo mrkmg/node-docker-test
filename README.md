@@ -80,24 +80,21 @@ You can also pass the following arguments to the CLI
 
 ndt sports a very flexible version syntax. The version syntax follows the following format:
 
-    <keyword> | filter:argument | filter:argument | ...
+    keyword | filter:argument | filter:argument | ...
 
-You must specify one keyword. You can chain any number of filters together.
+You must specify one keyword. You can chain any number of filters together. Whitespace is removed.
 
 #### Possible Keywords
 
-- A full nodejs version: e.g. `5.0.1`, `0.12.1`, `6.3.1`
-- A partial nodejs version: e.g. `4`, `5.0`, `6.1`
-    - The partial version will be resolved to the latest version matching the partial version.
-- `major`
-    - Resolves to a list of all the latest major versions. Does not include legacy versions.
-    - As of July 21st 2016, it resolves to 4.4.7, 5.12.0, and 6.3.1
-- `minor`
-    - Resolves to a list of all the latest minor versions. Does not include legacy versions.
-- `patch`
-    - Resolves to a list of all patch versions.
-- `legacy`
-    - Resolved to a list of all the legacy versions, which are everything that starts with major version 0.
+| Keyword | Description |
+|---------|------------- |
+| 5.0.1   | A full node version. |
+| 6       | A partial node version. This will be resolved to the latest version matching the partial version. |
+| major   | Resolves to a list of all the latest major versions. Does not include legacy versions. |
+| minor   | Resolves to a list of all the latest minor versions. Does not include legacy versions. |
+| patch   | Resolves to a list of all patch versions. Does not include legacy versions. |
+| legacy  | Resolves to a list of all the legacy versions, which are everything that starts with major version 0. |
+
 
 #### Possible Filters
 
@@ -105,8 +102,8 @@ You must specify one keyword. You can chain any number of filters together.
 - `gte:version` Filter to only versions greater than or equal to `version`.
 - `lt:version` Filter to only versions less than `version`.
 - `lte:version` Filter to only versions less than or equal to `version`.
-- `eq` Filter to only versions matching `version`.
-- `neq` Filter to only versions not matching `version`.
+- `eq:version` Filter to only versions matching `version`.
+- `neq:version` Filter to only versions not matching `version`.
 - `lts` Filter to only LTS versions.
 
 *`version` can be a partial version.*
@@ -127,7 +124,7 @@ Every single LTS version and the popular legacy versions.
 
 ### Other Notes
 
-- During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update the image to contain the version specified at any time. It is recommended to re-run setup whenever there are new versions which match your config to prevent having to redownload nodejs everytime your run your tests.
+- During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update the image to contain the versions specified at any time. It is recommended to re-run setup whenever there are new versions which match your config to prevent having to redownload nodejs every time your run your tests.
 - ndt uses `debian:stable` as the base image.
 - ndt just calls the docker command. You must be able to use docker as a user in order to use ndt. Please see your distribution for details on how to use docker.
 - each command in `setupCommand` and `command` will be joined with the "&&" operator. Therefor if any command fails, the setup or test is stopped.
