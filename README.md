@@ -109,6 +109,8 @@ You must specify one keyword. You can chain any number of filters together. Whit
 
 *`version` can be a partial version.*
 
+*You do not need to worry if multiple versions overlap, as they are de-duplicated before running* 
+
 #### Examples
 
 Minor versions of v6, and major versions of everything else.
