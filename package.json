@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "ndt": "./ndt"
+    "ndt": "./index.js"
   },
   "author": "",
   "license": "MIT",
@@ -16,6 +16,8 @@
     "bluebird": "^3.4.1",
     "minimist": "^1.2.0",
     "pad": "^1.0.0",
+    "semver": "^5.3.0",
+    "semver-loose": "^0.2.0",
     "xtend": "^4.0.1"
   }
 }

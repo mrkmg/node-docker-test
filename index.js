@@ -1,4 +1,4 @@
-var Docker, Promise, Commands, Blessed, Config, screen, Run, title;
+var Docker, Promise, Commands, Blessed, Config, screen, Run, title, titleTextBox, bodyBox;
 
 Promise = require('bluebird');
 Blessed = require('blessed');
@@ -12,35 +12,49 @@ Setup = require('./lib/actions/Setup');
 
 title = 'Node Docker Test - ' + Config.name;
 
-screen = Blessed.screen({
-    smartCSR: true
-});
-
-screen.key(['escape', 'C-c'], function ()
-{
-    screen.destroy();
-    return process.exit(1);
-});
-
-screen.title = title;
-
 Promise.try(function ()
 {
     return main();
 }).then(function ()
 {
-    screen.destroy();
+    if (screen) screen.destroy();
     process.exit(0);
 }).catch(function (e)
 {
-    screen.destroy();
+    if (screen) screen.destroy();
     console.error(e);
     process.exit(1);
 });
 
 function main()
 {
-    var titleTextBox, bodyBox;
+    switch (Config.action)
+    {
+        case 'setup':
+            return Setup();
+            break;
+        case 'test':
+            initializeScreen();
+            return Run(bodyBox, render);
+            break;
+        default:
+            throw new Error(Config.action + ' is an unknown action')
+    }
+}
+
+function initializeScreen()
+{
+    screen = Blessed.screen({
+        smartCSR: true
+    });
+
+    screen.key(['escape', 'C-c'], function ()
+    {
+        screen.destroy();
+        return process.exit(1);
+    });
+
+    screen.title = title;
 
     titleTextBox = Blessed.text({
         top: 0,
@@ -60,18 +74,6 @@ function main()
     screen.append(titleTextBox);
     screen.append(bodyBox);
     screen.render();
-
-    switch (Config.action)
-    {
-        case 'setup':
-            return Setup(bodyBox, render);
-            break;
-        case 'test':
-            return Run(bodyBox, render);
-            break;
-        default:
-            throw new Error(Config.action + ' is an unknown action')
-    }
 }
 
 function render()

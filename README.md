@@ -15,7 +15,7 @@ First, you will need to generate an image to use for the testing. Each project m
     cd /path/to/my/project
     ndt setup
 
-Once the setup is complete, you can run the test
+Once the setup is complete, you can run the test.
 
     ndt
 
@@ -33,10 +33,11 @@ You can add options for ndt to your package.json file to change the versions tes
                 ],
                 "command": "npm run local-test",
                 "versions": [
-                    "4",
-                    "5.0",
-                    "5.1",
-                    "6.2.1"
+                    "minor | lts",
+                    "major",
+                    "patch | gte:4.0 | lt:4.1"
+                    "0.12",
+                    "5.1.0",
                 ]
             }
         },
@@ -60,9 +61,9 @@ Default: *npm test*
 
 **versions**
 
-`versions` must be an array of string. Use this to specify versions to setup and run the tests against.
+`versions` must be an array of string. Use this to specify versions to setup and run the tests against. See [Versions Syntax](#versions-syntax).
 
-default: *["4", "5", "6"]*
+default: *["major", "0.12"]*
 
 
 ## CLI Options
@@ -71,12 +72,62 @@ You can also pass the following arguments to the CLI
 
 - **-c** Change the number of concurrent tests. Defaults to one less the number of processors on the system.
     - `ndt -c 3`
-- **-v** A comma separated list of versions to test for. Defaults to all versions set into the configuration.
-    - `ndt -v 4.0.1,5.1,6`
+- **-v** A comma separated list of versions to test for. Defaults to all versions set into the configuration. See [Versions Syntax](#versions-syntax).
+    - `ndt -v "major | lts, minor | eq:4, patch | gte:4.2 | lt:4.4"`
 
+
+## Versions Syntax
+
+ndt sports a very flexible version syntax. The version syntax follows the following format:
+
+    <keyword> | filter:argument | filter:argument | ...
+
+You must specify one keyword. You can chain any number of filters together.
+
+#### Possible Keywords
+
+- A full nodejs version: e.g. `5.0.1`, `0.12.1`, `6.3.1`
+- A partial nodejs version: e.g. `4`, `5.0`, `6.1`
+    - The partial version will be resolved to the latest version matching the partial version.
+- `major`
+    - Resolves to a list of all the latest major versions. Does not include legacy versions.
+    - As of July 21st 2016, it resolves to 4.4.7, 5.12.0, and 6.3.1
+- `minor`
+    - Resolves to a list of all the latest minor versions. Does not include legacy versions.
+- `patch`
+    - Resolves to a list of all patch versions.
+- `legacy`
+    - Resolved to a list of all the legacy versions, which are everything that starts with major version 0.
+
+#### Possible Filters
+
+- `gt:version` Filter to only versions greater than `version`.
+- `gte:version` Filter to only versions greater than or equal to `version`.
+- `lt:version` Filter to only versions less than `version`.
+- `lte:version` Filter to only versions less than or equal to `version`.
+- `eq` Filter to only versions matching `version`.
+- `neq` Filter to only versions not matching `version`.
+- `lts` Filter to only LTS versions.
+
+*`version` can be a partial version.*
+
+#### Examples
+
+Minor versions of v6, and major versions of everything else.
+
+    ndt -v "minor | eq:6, major | lt:6"
+
+All major versions, plus a subset of version 4 which had a bug your project needs to pay attention to.
+
+    ndt -v "major, patch | gt:4.2 | lt:4.6"
+
+Every single LTS version and the popular legacy versions.
+
+    ndt -v "patch | lts, 0.12, 0.10"
 
 ### Other Notes
 
+- During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update the image to contain the version specified at any time. It is recommended to re-run setup whenever there are new versions which match your config to prevent having to redownload nodejs everytime your run your tests.
 - ndt uses `debian:stable` as the base image.
 - ndt just calls the docker command. You must be able to use docker as a user in order to use ndt. Please see your distribution for details on how to use docker.
 - each command in `setupCommand` and `command` will be joined with the "&&" operator. Therefor if any command fails, the setup or test is stopped.
