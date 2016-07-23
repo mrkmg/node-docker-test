@@ -28,18 +28,14 @@ Promise.try(function ()
 
 function main()
 {
-    switch (Config.action)
+    if (Config.setup)
     {
-        case 'setup':
-            return Setup();
-            break;
-        case 'test':
-            initializeScreen();
-            return Run(bodyBox, render);
-            break;
-        default:
-            throw new Error(Config.action + ' is an unknown action')
+        return Setup();
     }
+
+    initializeScreen();
+
+    return Run(bodyBox, render);
 }
 
 function initializeScreen()
