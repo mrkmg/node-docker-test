@@ -1,6 +1,6 @@
 {
   "name": "node-docker-test",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Test your node project against multiple node versions using docker.",
   "main": "index.js",
   "scripts": {
