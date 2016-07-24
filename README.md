@@ -79,7 +79,7 @@ ndt sports a very flexible version syntax. The version syntax follows the follow
 
     (version or keyword) | filter | filter | ...
 
-You must specify one keyword. You can chain any number of filters together. Whitespace is removed.
+You must specify one version or one keyword and then any number of filters (or zero). Whitespace is optional.
 
 ### Possible Versions
 
@@ -98,6 +98,9 @@ You must specify one keyword. You can chain any number of filters together. Whit
 |  patch  | Resolves to a list of all patch versions. Does not include legacy versions.                           |
 | legacy  | Resolves to a list of all the legacy versions, which are everything that starts with major version 0. |
 |   all   | Resolves to every single version available.                                                           |
+
+*A note about versions < 0.10: They will not install unless you provide a build environment via the setup commands see
+the nvm documentation*
 
 ### Possible Filters
 
@@ -123,7 +126,7 @@ All major versions, plus a subset of version 4 which had a bug your project need
 
     ndt -v "major" -v "patch | gt:4.2 | lt:4.6"
 
-Every single LTS version and the popular legacy versions.
+Every single LTS version and the *popular* legacy versions.
 
     ndt -v "patch | lts" -v  "0.12, 0.10"
 
@@ -131,18 +134,23 @@ Every single LTS version and the popular legacy versions.
 
 ## Other Notes
 
-- The current working directory is copied into docker to the directory /test-src. Then that directory is rsynced to
-  /test excluding the node_modules folder (to ensure a new download of all the dependencies). Then all commands are run
-  in the /test directory.
+- The current working directory is copied into docker to the directory /test-src. Then that directory is rsync'd to
+  /test excluding the node_modules folder (to ensure a new download of all the dependencies). Then test is run from the
+  /test directory.
 - During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update
   the image to contain the versions specified at any time. It is recommended to re-run setup whenever there are new
   versions which match your config to prevent having to re-download the node binaries every time your run your tests.
 - ndt uses `debian:stable` as the base image.
 - ndt just calls the docker command. You must be able to execute the `docker` application in order to use ndt. Please
-  see your distribution for details on how to use docker.
+  see your distribution's documentation for details on how to setup and use docker.
 - Each command in `setup-commands` and `commands` will be joined with the "&&" operator. Therefor if any command fails,
   the setup or test is stopped.
 
+## TODO Before Version 1
+
+- [] Add tests
+- [] Add quiet mode for testing
+- [] ???
 
 ## License
 
