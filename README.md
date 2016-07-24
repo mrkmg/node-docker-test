@@ -148,9 +148,9 @@ Every single LTS version and the *popular* legacy versions.
 
 ## TODO Before Version 1
 
-- [] Add tests
-- [] Add quiet mode for testing
-- [] ???
+- [ ] Add tests
+- [ ] Add quiet mode for testing
+- [ ] ???
 
 ## License
 
