@@ -131,6 +131,9 @@ Every single LTS version and the popular legacy versions.
 
 ## Other Notes
 
+- The current working directory is copied into docker to the directory /test-src. Then that directory is rsynced to
+  /test excluding the node_modules folder (to ensure a new download of all the dependencies). Then all commands are run
+  in the /test directory.
 - During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update
   the image to contain the versions specified at any time. It is recommended to re-run setup whenever there are new
   versions which match your config to prevent having to re-download the node binaries every time your run your tests.
