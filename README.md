@@ -62,16 +62,17 @@ default testing command. Below is an example `package.json` file.
 
 ### CLI Options
 
-| Options              | Type    | Default           | Description                                                                                                        |
-|:---------------------|:--------|:------------------|:-------------------------------------------------------------------------------------------------------------------|
-| --concurrency, -c    | number  | # CPUS - 1        | Number of concurrent tests to run.                                                                                 |
-| --commands, -x       | array   | ["npm test"]      | The commands to run for test. This argument can be specified multiple times.                                       |
-| --versions, -v       | array   | ["major", "0.12"] | Which versions to run. This argument can be specified multiple times. See the [Versions Syntax](#versions-syntax). |
-| --setup              | boolean | false             | Run the setup.                                                                                                     |
-| --reset, -r          | boolean | false             | When running setup, remove the previous image instead of re-using it.                                              |
-| --package, -p        | string  | ./package.json    | Path to the package.json file.                                                                                     |
-| --setup-commands, -s | array   | []                | Extra commands to run during setup. This argument can e specified multiple times.                                  |
-| --help, -h           | boolean | false             | Show help.                                                                                                         |
+| Options              | Type    | Default           | Description                                                                                                                       |
+|:---------------------|:--------|:------------------|:----------------------------------------------------------------------------------------------------------------------------------|
+| --concurrency, -c    | number  | # CPUS - 1        | Number of concurrent tests to run.                                                                                                |
+| --commands, -x       | array   | ["npm test"]      | The commands to run for test. This argument can be specified multiple times.                                                      |
+| --versions, -v       | array   | ["major", "0.12"] | Which versions to run. This argument can be specified multiple times. See the [Versions Syntax](#versions-syntax).                |
+| --setup              | boolean | false             | Run the setup.                                                                                                                    |
+| --reset, -r          | boolean | false             | When running setup, remove the previous image instead of re-using it.                                                             |
+| --package, -p        | string  | ./package.json    | Path to the package.json file.                                                                                                    |
+| --setup-commands, -s | array   | []                | Extra commands to run during setup. This argument can e specified multiple times.                                                 |
+| --help, -h           | boolean | false             | Show help.                                                                                                                        |
+| --simple, -q         | boolean | false             | Run in simple mode. Runs the tests against all versions with very little output. Exit code is equal to the number of failed tests |
 
 ## Versions Syntax
 

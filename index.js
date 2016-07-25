@@ -1,8 +1,8 @@
-var Docker, Promise, Commands, Blessed, Config, screen, Run, title, titleTextBox, bodyBox;
+var Docker, Promise, Commands, Config, screen, Run, title;
 
 Promise = require('bluebird');
-Blessed = require('blessed');
 
+Screen = require('./lib/display/Screen');
 Docker = require('./lib/Docker');
 Commands = require('./lib/Commands');
 Config = require('./lib/Config');
@@ -10,20 +10,19 @@ Config = require('./lib/Config');
 Run = require('./lib/actions/Run');
 Setup = require('./lib/actions/Setup');
 
-title = 'Node Docker Test - ' + Config.name;
 
 Promise.try(function ()
 {
     return main();
 }).then(function ()
 {
-    if (screen) screen.destroy();
+    Screen.deinit();
     process.exit(0);
 }).catch(function (e)
 {
-    if (screen) screen.destroy();
+    Screen.deinit();
     console.error(e);
-    process.exit(1);
+    process.exit(255);
 });
 
 function main()
@@ -33,46 +32,15 @@ function main()
         return Setup();
     }
 
-    initializeScreen();
-
-    return Run(bodyBox, render);
-}
-
-function initializeScreen()
-{
-    screen = Blessed.screen({
-        smartCSR: true
-    });
-
-    screen.key(['escape', 'C-c'], function ()
+    if (!Config.simple)
     {
-        screen.destroy();
-        return process.exit(1);
-    });
+        Screen.intialize();
+        Screen.on('userKill', function ()
+        {
+            Screen.deinit();
+            process.exit(255);
+        })
+    }
 
-    screen.title = title;
-
-    titleTextBox = Blessed.text({
-        top: 0,
-        left: 'center',
-        width: title.length,
-        height: 1,
-        content: title
-    });
-
-    bodyBox = Blessed.box({
-        top: 1,
-        left: 0,
-        right: 0,
-        bottom: 0
-    });
-
-    screen.append(titleTextBox);
-    screen.append(bodyBox);
-    screen.render();
-}
-
-function render()
-{
-    return screen.render();
+    return Run();
 }
