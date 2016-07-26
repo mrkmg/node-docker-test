@@ -23,56 +23,120 @@ Once the setup is complete, you can run the test.
 
 ## Configuration
 
-You can add options for ndt to your package.json file to change the versions tested, install dependencies, or change the
-default testing command. Below is an example `package.json` file.
+Configuration can be set via your package.json file or via command line arguments. Command line arguments always
+override your package.json.
+
+- [Commands](#commands)
+- [Setup Commands](#setup-commands)
+- [Versions](#versions)
+- [Concurrency](#concurrency)
+- [Setup](#setup)
+- [Reset](#reset)
+- [Simple Mode](#simple-mode)
+- [Pacakge File](#package-file)
+- [Other Options](#other-options)
+
+Here is a minimal package.json file will all options set.
 
     {
-        ...
+        "name": "super-cool-package",
+        "version": "1.0.0",
         "config": {
             "ndt": {
                 "setup-commands": [
                     "apt-get install -y curl",
                     "mkdir /some/needed/folder"
                 ],
-                "commands": "npm run local-test",
+                "commands": [
+                    "npm run setup-tests",
+                    "npm test",
+                ],
                 "versions": [
                     "minor | lts",
                     "major",
                     "patch | gte:4.0 | lt:4.1"
                     "0.12",
                     "5.1.0"
-                ]
+                ],
+                "concurrency": 2,
+                "simple": false,
+                "reset": true
             }
-        },
-        ...
+        }
     }
 
-### Configuration Options
+#### Commands
 
-| Option             | Default           | Description                                                                                          |
-|:-------------------|:------------------|:-----------------------------------------------------------------------------------------------------|
-| **setup-commands** | []                | A string, or an array of strings. Each string will be executed during the creation of the container. |
-| **commands**       | "npm test"        | A string, or an array of string. Each string will be executed during the creation of the container.  |
-| **versions**       | ["major", "0.12"] | An array of strings. Specify versions according the [Versions Syntax](#versions-syntax).             |
+A string, or an array of strings. Each command will be executed during the test.
 
+| JSON Key   | CLI Argument   | Default      |
+|:-----------|:---------------|:-------------|
+| "commands" | --commands, -x | ["npm test"] |
 
-## CLI Usage
+#### Setup Commands
 
-    ndt [options]
+A string, or an array of strings. Each command will be executed during the setup.
 
-### CLI Options
+| JSON Key         | CLI Argument         | Default |
+|:-----------------|:---------------------|:--------|
+| "setup-commands" | --setup-commands, -s | []      |
 
-| Options              | Type    | Default           | Description                                                                                                                       |
-|:---------------------|:--------|:------------------|:----------------------------------------------------------------------------------------------------------------------------------|
-| --concurrency, -c    | number  | # CPUS - 1        | Number of concurrent tests to run.                                                                                                |
-| --commands, -x       | array   | ["npm test"]      | The commands to run for test. This argument can be specified multiple times.                                                      |
-| --versions, -v       | array   | ["major", "0.12"] | Which versions to run. This argument can be specified multiple times. See the [Versions Syntax](#versions-syntax).                |
-| --setup              | boolean | false             | Run the setup.                                                                                                                    |
-| --reset, -r          | boolean | false             | When running setup, remove the previous image instead of re-using it.                                                             |
-| --package, -p        | string  | ./package.json    | Path to the package.json file.                                                                                                    |
-| --setup-commands, -s | array   | []                | Extra commands to run during setup. This argument can e specified multiple times.                                                 |
-| --help, -h           | boolean | false             | Show help.                                                                                                                        |
-| --simple, -q         | boolean | false             | Run in simple mode. Runs the tests against all versions with very little output. Exit code is equal to the number of failed tests |
+#### Versions
+
+An array of versions. See [Versions Syntax](#versions-syntax)
+
+| JSON Key   | CLI Argument   | Default           |
+|:-----------|:---------------|:------------------|
+| "versions" | --versions, -v | ["major", "0.12"] |
+
+#### Concurrency
+
+The number of current tests to run.
+
+| JSON Key      | CLI Argument      | Default    |
+|:--------------|:------------------|:-----------|
+| "concurrency" | --concurrency, -c | # CPUs - 1 |
+
+#### Setup
+
+Run the setup. Will not run any tests.
+
+| JSON Key | CLI Argument | Default |
+|:---------|:-------------|:--------|
+| "simple" | --simple, -q | false   |
+
+#### Reset
+
+Do not re-use an existing image during setup. Useful if your setup scripts expect a clean environment.
+
+| JSON Key | CLI Argument | Default |
+|:---------|:-------------|:--------|
+| "reset"  | --reset      | false   |
+
+#### Simple Mode
+
+Run the tests in simple mode. This will force a simple line-by-line output. Also in simple mode, the exit code is equal
+to the number of failed tests. Simple mode is most useful for small terminals or scripting.
+
+| JSON Key | CLI Argument | Default |
+|:---------|:-------------|:--------|
+| "simple" | --simple, -q | false   |
+
+#### Package File
+
+Specify a path to a package.json file to use. Useful for testing different configurations. Should not really need to be
+used in practice.
+
+| JSON Key | CLI Argument  | Default          |
+|:---------|:--------------|:-----------------|
+| N/A      | --package, -p | "./package.json" |
+
+#### Other options
+
+| JSON Key | CLI Argument | Default |
+|:---------|:-------------|:--------|
+| N/A      | --help, -h   | false   |
+
 
 ## Versions Syntax
 
@@ -136,16 +200,17 @@ Every single LTS version and the *popular* legacy versions.
 ## Other Notes
 
 - The current working directory is copied into docker to the directory /test-src. Then that directory is rsync'd to
-  /test excluding the node_modules folder (to ensure a new download of all the dependencies). Then test is run from the
+  /test excluding the node_modules folder (to ensure a new download of all the dependencies). The test is run from the
   /test directory.
 - During setup, ndt will pre-download the versions specified during setup. You can re-run setup at any time to update
   the image to contain the versions specified at any time. It is recommended to re-run setup whenever there are new
-  versions which match your config to prevent having to re-download the node binaries every time your run your tests.
+  versions which match your config to prevent having to re-download the node binaries every time your run your tests. If
+  `reset` is false, then the image will be re-used and any existing versions are not re-downloaded.
 - ndt uses `debian:stable` as the base image.
 - ndt just calls the docker command. You must be able to execute the `docker` application in order to use ndt. Please
   see your distribution's documentation for details on how to setup and use docker.
 - Each command in `setup-commands` and `commands` will be joined with the "&&" operator. Therefor if any command fails,
-  the setup or test is stopped.
+  the entire setup or test is stopped.
 
 ## TODO Before Version 1
 
