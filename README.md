@@ -36,7 +36,7 @@ override your package.json.
 - [Pacakge File](#package-file)
 - [Other Options](#other-options)
 
-Here is a minimal package.json file will all options set.
+Here is a minimal package.json file with all options set.
 
     {
         "name": "super-cool-package",
