@@ -160,13 +160,13 @@ You must specify one version or one keyword and then any number of filters (or z
 
 ### Possible Keywords
 
-| Keyword | Description                                                                                           |
-|:-------:|:------------------------------------------------------------------------------------------------------|
-|  major  | Resolves to a list of all the latest major versions. Does not include legacy versions.                |
-|  minor  | Resolves to a list of all the latest minor versions. Does not include legacy versions.                |
-|  patch  | Resolves to a list of all patch versions. Does not include legacy versions.                           |
-| legacy  | Resolves to a list of all the legacy versions, which are everything that starts with major version 0. |
-|   all   | Resolves to every single version available.                                                           |
+| Keyword | Description                                                                                          |
+|:-------:|:-----------------------------------------------------------------------------------------------------|
+|  major  | Resolves to a list of all the latest major versions. Does not include legacy versions.               |
+|  minor  | Resolves to a list of all the latest minor versions. Does not include legacy versions.               |
+|  patch  | Resolves to a list of all patch versions. Does not include legacy versions.                          |
+| legacy  | Resolves to a list of all the legacy versions, which is everything that starts with major version 0. |
+|   all   | Resolves to every single version available.                                                          |
 
 *A note about versions < 0.10: They will not install unless you provide a build environment via the setup commands see
 the nvm documentation*
