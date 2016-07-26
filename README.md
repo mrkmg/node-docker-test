@@ -21,6 +21,8 @@ Once the setup is complete, you can run the test.
 
     ndt
 
+-----------------
+
 ## Configuration
 
 Configuration can be set via your package.json file or via command line arguments. Command line arguments always
@@ -65,7 +67,7 @@ Here is a minimal package.json file with all options set.
         }
     }
 
-#### Commands
+##### Commands
 
 A string, or an array of strings. Each command will be executed during the test.
 
@@ -73,7 +75,7 @@ A string, or an array of strings. Each command will be executed during the test.
 |:-----------|:---------------|:-------------|
 | "commands" | --commands, -x | ["npm test"] |
 
-#### Setup Commands
+##### Setup Commands
 
 A string, or an array of strings. Each command will be executed during the setup.
 
@@ -81,7 +83,7 @@ A string, or an array of strings. Each command will be executed during the setup
 |:-----------------|:---------------------|:--------|
 | "setup-commands" | --setup-commands, -s | []      |
 
-#### Versions
+##### Versions
 
 An array of versions. See [Versions Syntax](#versions-syntax)
 
@@ -89,7 +91,7 @@ An array of versions. See [Versions Syntax](#versions-syntax)
 |:-----------|:---------------|:------------------|
 | "versions" | --versions, -v | ["major", "0.12"] |
 
-#### Concurrency
+##### Concurrency
 
 The number of current tests to run.
 
@@ -97,7 +99,7 @@ The number of current tests to run.
 |:--------------|:------------------|:-----------|
 | "concurrency" | --concurrency, -c | # CPUs - 1 |
 
-#### Setup
+##### Setup
 
 Run the setup. Will not run any tests.
 
@@ -105,7 +107,7 @@ Run the setup. Will not run any tests.
 |:---------|:-------------|:--------|
 | "simple" | --simple, -q | false   |
 
-#### Reset
+##### Reset
 
 Do not re-use an existing image during setup. Useful if your setup scripts expect a clean environment.
 
@@ -113,7 +115,7 @@ Do not re-use an existing image during setup. Useful if your setup scripts expec
 |:---------|:-------------|:--------|
 | "reset"  | --reset      | false   |
 
-#### Simple Mode
+##### Simple Mode
 
 Run the tests in simple mode. This will force a simple line-by-line output. Also in simple mode, the exit code is equal
 to the number of failed tests. Simple mode is most useful for small terminals or scripting.
@@ -122,7 +124,7 @@ to the number of failed tests. Simple mode is most useful for small terminals or
 |:---------|:-------------|:--------|
 | "simple" | --simple, -q | false   |
 
-#### Package File
+##### Package File
 
 Specify a path to a package.json file to use. Useful for testing different configurations. Should not really need to be
 used in practice.
@@ -131,12 +133,14 @@ used in practice.
 |:---------|:--------------|:-----------------|
 | N/A      | --package, -p | "./package.json" |
 
-#### Other options
+##### Other options
 
 | JSON Key | CLI Argument | Default |
 |:---------|:-------------|:--------|
 | N/A      | --help, -h   | false   |
 
+
+-----------------------
 
 ## Versions Syntax
 
@@ -196,6 +200,9 @@ Every single LTS version and the *popular* legacy versions.
     ndt -v "patch | lts" -v  "0.12, 0.10"
 
 *You do not need to worry if multiple versions overlap, as they are de-duplicated before running*
+
+
+-----------------------
 
 ## Other Notes
 
