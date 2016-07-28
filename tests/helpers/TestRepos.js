@@ -13,8 +13,9 @@ module.exports = {
     allString: function allString()
     {
         return this._createSimpleJson('string', {
-            commands: "commands-abc",
-            'setup-commands': 'setup-commands-abc'
+            commands: "commands-test",
+            'setup-commands': 'setup-commands-test',
+            'base-image': 'base-image-test'
         });
     },
 

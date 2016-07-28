@@ -43,7 +43,7 @@ describe('config-parsing', function ()
         });
     });
 
-    describe('string', function ()
+    describe('strings', function ()
     {
         before(function ()
         {
@@ -66,17 +66,17 @@ describe('config-parsing', function ()
 
         it('commands', function ()
         {
-            expect(this.config.commands).to.eql(['commands-1', 'commands-2']);
+            expect(this.config.commands).to.eql('commands-test');
         });
 
         it('setup-commands', function ()
         {
-            expect(this.config['setup-commands']).to.eql(['setup-commands-1', 'setup-commands-2']);
+            expect(this.config['setup-commands']).to.eql('setup-commands-test');
         });
 
-        it('versions', function ()
+        it('base-image', function ()
         {
-            expect(this.config.versions).to.eql(['4', 5, 'minor']);
+            expect(this.config['base-image']).to.equal('base-image-test');
         });
     });
 });
