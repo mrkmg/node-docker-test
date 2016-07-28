@@ -81,7 +81,7 @@ describe('config-parsing', function ()
         });
     });
 
-    describe.only('integers', function ()
+    describe('integers', function ()
     {
         before(function ()
         {
