@@ -91,8 +91,6 @@ describe('config-parsing', function ()
             process.argv = ['node', 'ndt'];
             process.chdir(TestRepos.allNumber());
 
-            console.log(require('fs').readFileSync('./package.json').toString());
-
             this.config = require('../../lib/Config');
         });
 
