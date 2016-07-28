@@ -36,6 +36,7 @@ override your package.json.
 - [Reset](#reset)
 - [Simple Mode](#simple-mode)
 - [Package File](#package-file)
+- [Base Image](#base-image)
 
 A minimal package.json file:
 
@@ -166,6 +167,17 @@ used in practice.
 - **JSON:** N/A
 - **CLI:** --package, -p
 
+#### Base Image
+
+Specify the base image to build the testing image from.
+(debian, ubuntu, etc).
+
+**Default:** `"debian:stable"`
+
+- **JSON:** "base-image"
+- **CLI:** --base-image
+
+*ndt uses apt in it's setup routine for node. You must use an image which contains apt (debian, ubuntu, etc).
 
 -----------------------
 
