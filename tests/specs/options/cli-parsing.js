@@ -2,10 +2,10 @@ var expect, TestRepos, cleanConfig;
 
 expect = require('chai').expect;
 
-TestRepos = require('../helpers/TestRepos');
-cleanConfig = require('../helpers/cleanConfig');
+TestRepos = require('../../helpers/TestRepos');
+cleanConfig = require('../../helpers/cleanConfig');
 
-describe('defaults', function ()
+describe('cli-parsing', function ()
 {
     describe('no-config', function ()
     {
@@ -15,11 +15,18 @@ describe('defaults', function ()
             this.previous_argv = process.argv;
 
             process.argv = [
-                'node', 'ndt'
+                'node', 'ndt',
+                '-x', 'command1', 'command2',
+                '-s', 'setup-command1', 'setup-command2',
+                '-v', 'version1', 'version2',
+                '-c', '99',
+                '--setup',
+                '--reset',
+                '--base-image', 'three'
             ];
             process.chdir(TestRepos.defaults());
 
-            this.config = require('../../lib/Config');
+            this.config = require('../../../lib/Config');
         });
 
         after(function ()
@@ -32,32 +39,32 @@ describe('defaults', function ()
 
         it('commands', function ()
         {
-            expect(this.config.commands).to.eql(['npm test']);
+            expect(this.config.commands).to.eql(['command1', 'command2']);
         });
 
         it('setup-commands', function ()
         {
-            expect(this.config['setup-commands']).to.eql([])
+            expect(this.config['setup-commands']).to.eql(['setup-command1', 'setup-command2']);
         });
 
         it('versions', function ()
         {
-            expect(this.config.versions).to.eql(['major', '0.12']);
+            expect(this.config.versions).to.eql(['version1', 'version2']);
         });
 
         it('concurrency', function ()
         {
-            expect(this.config.concurrency).to.equal(require('os').cpus().length - 1);
+            expect(this.config.concurrency).to.equal(99);
         });
 
         it('setup', function ()
         {
-            expect(this.config.setup).to.equal(false);
+            expect(this.config.setup).to.equal(true);
         });
 
         it('reset', function ()
         {
-            expect(this.config.reset).to.equal(false);
+            expect(this.config.reset).to.equal(true);
         })
     });
 });
