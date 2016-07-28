@@ -2,13 +2,13 @@ var expect, VersionKeywords;
 
 expect = require('chai').expect;
 
-VersionKeywords = require('../../../lib/VersionKeywords');
+VersionKeywords = require('../../lib/VersionKeywords');
 
 describe('versions-keywords', function ()
 {
     before(function ()
     {
-        VersionKeywords.versionListCache = require('../../helpers/versions.json');
+        VersionKeywords.versionListCache = require('../helpers/versions.json');
     });
 
     after(function ()
