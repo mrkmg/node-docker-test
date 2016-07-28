@@ -39,9 +39,8 @@ module.exports = {
     {
         return this._createSimpleJson('boolean', {
             reset: true,
-            simple: true,
-
-        })
+            simple: true
+        });
     },
 
     cleanup: function cleanup()
@@ -85,6 +84,6 @@ module.exports = {
 
     _writeFileJson: function (file, object)
     {
-        return fs.writeFileSync(file, JSON.stringify(object));
+        return this._writeFile(file, JSON.stringify(object));
     }
 };

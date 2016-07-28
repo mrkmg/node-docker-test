@@ -1,8 +1,9 @@
-var expect, TestRepos;
+var expect, TestRepos, cleanConfig;
 
 expect = require('chai').expect;
 
 TestRepos = require('../helpers/TestRepos');
+cleanConfig = require('../helpers/cleanConfig');
 
 describe('config-parsing', function ()
 {
@@ -23,13 +24,13 @@ describe('config-parsing', function ()
         {
             process.chdir(this.previous_cwd);
             process.argv = this.previous_argv;
-            delete require.cache[require.resolve('../../lib/Config')];
+            cleanConfig();
             TestRepos.cleanup();
         });
 
         it('commands', function ()
         {
-            expect(this.config.commands).to.eql(['commands-1', 'commands-2']);
+            expect(this.config['commands']).to.eql(['commands-1', 'commands-2']);
         });
 
         it('setup-commands', function ()
@@ -60,13 +61,13 @@ describe('config-parsing', function ()
         {
             process.chdir(this.previous_cwd);
             process.argv = this.previous_argv;
-            delete require.cache[require.resolve('../../lib/Config')];
+            cleanConfig();
             TestRepos.cleanup();
         });
 
         it('commands', function ()
         {
-            expect(this.config.commands).to.eql('commands-test');
+            expect(this.config['commands']).to.eql('commands-test');
         });
 
         it('setup-commands', function ()
@@ -79,4 +80,68 @@ describe('config-parsing', function ()
             expect(this.config['base-image']).to.equal('base-image-test');
         });
     });
+
+    describe.only('integers', function ()
+    {
+        before(function ()
+        {
+            this.previous_cwd = process.cwd();
+            this.previous_argv = process.argv;
+
+            process.argv = ['node', 'ndt'];
+            process.chdir(TestRepos.allNumber());
+
+            console.log(require('fs').readFileSync('./package.json').toString());
+
+            this.config = require('../../lib/Config');
+        });
+
+        after(function ()
+        {
+            process.chdir(this.previous_cwd);
+            process.argv = this.previous_argv;
+            cleanConfig();
+            TestRepos.cleanup();
+        });
+
+        it('concurrency', function ()
+        {
+            expect(this.config['concurrency']).to.equal(99);
+        });
+    });
+
+    describe('boolean', function ()
+    {
+        before(function ()
+        {
+            this.previous_cwd = process.cwd();
+            this.previous_argv = process.argv;
+
+            process.argv = ['node', 'ndt'];
+            process.chdir(TestRepos.allBoolean());
+
+            this.config = require('../../lib/Config');
+        });
+
+        after(function ()
+        {
+            process.chdir(this.previous_cwd);
+            process.argv = this.previous_argv;
+            cleanConfig();
+            TestRepos.cleanup();
+        });
+
+        it('reset', function ()
+        {
+            expect(this.config['reset']).to.equal(true);
+        });
+
+        it('simple', function ()
+        {
+            expect(this.config['simple']).to.equal(true);
+        });
+    });
 });
+
+
+
