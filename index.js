@@ -1,4 +1,4 @@
-var Docker, Promise, Commands, Config, screen, Run, title;
+var Docker, Promise, Commands, Config, Screen, Run, Setup, screen;
 
 Promise = require('bluebird');
 
@@ -10,37 +10,36 @@ Config = require('./lib/Config');
 Run = require('./lib/actions/Run');
 Setup = require('./lib/actions/Setup');
 
-
-Promise.try(function ()
-{
-    return main();
-}).then(function ()
-{
-    Screen.deinit();
-    process.exit(0);
-}).catch(function (e)
-{
-    Screen.deinit();
-    console.error(e);
-    process.exit(255);
-});
-
-function main()
-{
-    if (Config.setup)
+return Promise
+    .try(function ()
     {
-        return Setup();
-    }
+        screen = new Screen();
 
-    if (!Config.simple)
-    {
-        Screen.intialize();
-        Screen.on('userKill', function ()
+
+        if (Config.setup)
         {
-            Screen.deinit();
-            process.exit(255);
-        })
-    }
+            return Setup(Config);
+        }
 
-    return Run();
-}
+        if (!Config.simple)
+        {
+            screen.intialize(Config.name);
+            screen.on('userKill', function ()
+            {
+                screen.deinit();
+                process.exit(255);
+            });
+        }
+
+        return Run(Config, screen);
+    }).then(function ()
+    {
+        screen.deinit();
+
+        process.exit(0);
+    }).catch(function (e)
+    {
+        screen.deinit();
+        console.error(e);
+        process.exit(255);
+    });
