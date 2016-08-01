@@ -26,7 +26,7 @@ describe('cli-parsing', function ()
             ];
             process.chdir(TestRepos.defaults());
 
-            this.config = require('../../../lib/Config');
+            this.config = require('../../../lib/utils/Config');
         });
 
         after(function ()
