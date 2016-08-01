@@ -2,7 +2,7 @@ var expect, VersionKeywords;
 
 expect = require('chai').expect;
 
-VersionKeywords = require('../../lib/VersionKeywords');
+VersionKeywords = require('../../lib/utils/VersionKeywords');
 
 describe('versions-keywords', function ()
 {

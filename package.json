@@ -2,7 +2,7 @@
   "name": "node-docker-test",
   "version": "0.5.1",
   "description": "Test your node project against multiple node versions using docker.",
-  "main": "index.js",
+  "main": "api.js",
   "scripts": {
     "test": "mocha tests/specs/**/*.js"
   },
