@@ -73,6 +73,7 @@ A cli invocation with all options set for a setup:
 
 ```bash
 ndt \
+    --setup \
     -s "apt-get install -y curl" "mkdir -p /some/needed/folder" \
     -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
     --reset
