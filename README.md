@@ -41,143 +41,133 @@ override your package.json.
 A minimal package.json file:
 
 ```json
-    {
-        "name": "super-cool-package",
-        "version": "1.0.0",
-        "config": {
-            "ndt": {
-                "setup-commands": [
-                    "apt-get install -y curl",
-                    "mkdir -p /some/needed/folder"
-                ],
-                "commands": [
-                    "npm run setup-tests",
-                    "npm test"
-                ],
-                "versions": [
-                    "minor | lts",
-                    "major",
-                    "patch | gte:4.0 | lt:4.1",
-                    "0.12",
-                    "5.1.0"
-                ],
-                "concurrency": 2,
-                "simple": false,
-                "reset": true
-            }
+{
+    "name": "super-cool-package",
+    "version": "1.0.0",
+    "config": {
+        "ndt": {
+            "setup-commands": [
+                "apt-get install -y curl",
+                "mkdir -p /some/needed/folder"
+            ],
+            "commands": [
+                "npm run setup-tests",
+                "npm test"
+            ],
+            "versions": [
+                "minor | lts",
+                "major",
+                "patch | gte:4.0 | lt:4.1",
+                "0.12",
+                "5.1.0"
+            ],
+            "concurrency": 2,
+            "simple": false,
+            "reset": true
         }
     }
+}
 ```
 
 A cli invocation with all options set for a setup:
 
 ```bash
-    ndt \
-        -s "apt-get install -y curl" "mkdir -p /some/needed/folder" \
-        -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
-        --reset
+ndt \
+    -s "apt-get install -y curl" "mkdir -p /some/needed/folder" \
+    -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
+    --reset
 ```
 
 A cli invocation with all options set for running tests:
 
 ```bash
-    ndt \
-        -x "npm run setup-tests" "npm test" \
-        -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
-        -c 2 \
-        --simple
+ndt \
+    -x "npm run setup-tests" "npm test" \
+    -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
+    -c 2 \
+    --simple
 ```
 
 #### Commands
 
-A string, or an array of strings. Each command will be executed during the test.
-
-**Default:** `"npm test"`
-
-- **JSON:** "commands"
-- **CLI:** --commands, -x
+> A string, or an array of strings. Each command will be executed during the test.
+> 
+> **Default:** `"npm test"`
+> 
+> - **JSON:** "commands"
+> - **CLI:** --commands, -x
 
 #### Setup Commands
 
-A string, or an array of strings. Each command will be executed during the setup.
-
-**Default:** Empty
-
-- **JSON:** "setup-commands"
-- **CLI:** --setup-commands, -s
+> A string, or an array of strings. Each command will be executed during the setup.
+> 
+> **Default:** Empty
+> 
+> - **JSON:** "setup-commands"
+> - **CLI:** --setup-commands, -s
 
 #### Versions
 
-An array of versions. See [Versions Syntax](#versions-syntax)
-
-**Default:** `["major", "0.12"]`
-
-- **JSON:** "versions"
-- **CLI:** --versions, -v
+> An array of versions. See [Versions Syntax](#versions-syntax)
+> 
+> **Default:** `["major", "0.12"]`
+> 
+> - **JSON:** "versions"
+> - **CLI:** --versions, -v
 
 #### Concurrency
 
-The number of current tests to run. Only applicable for running tests.
-
-**Default:** # CPUs - 1
-
-- **JSON:** "concurrency"
-- **CLI:** --concurrency, -c
-
-*It is recommended to NOT use the json key for concurrency as users with different systems may prefer to let ndt
-determine the number of concurrent tests to run based on their system.*
+> The number of current tests to run. Only applicable for running tests.
+> 
+> **Default:** # CPUs - 1
+> 
+> - **JSON:** "concurrency"
+> - **CLI:** --concurrency, -c
+> 
+> *It is recommended to NOT use the json key for concurrency as users with different systems may prefer to let ndt
+> determine the number of concurrent tests to run based on their system.*
 
 #### Setup
 
-Run the setup. Will not run any tests.
-
-**Default:** `false`
-
-- **JSON:** N/A
-- **CLI:** --setup
+> Run the setup. Will not run any tests. If the project is already setup, the existing image will be used as the base.
+> Run setup anytime to update the image.
+> 
+> **Default:** `false`
+> 
+> - **JSON:** N/A
+> - **CLI:** --setup
 
 #### Reset
 
-Do not re-use an existing image during setup. Useful if your setup scripts expect a clean environment. Only applicable
-for setup.
-
-**Default:** `false`
-
-- **JSON:** "reset"
-- **CLI:** --reset
+> Do not re-use an existing image during setup. Useful if your setup scripts expect a clean environment. Only applicable
+> for setup.
+> 
+> **Default:** `false`
+> 
+> - **JSON:** "reset"
+> - **CLI:** --reset
 
 #### Simple Mode
 
-Run the tests in simple mode. This will force a simple line-by-line output. Also in simple mode, the exit code is equal
-to the number of failed tests. Simple mode is most useful for small terminals or scripting. Only applicable for running
-the tests.
-
-**Default:** `false`
-
-- **JSON:** "simple"
-- **CLI:** --simple, -q
-
-#### Package File
-
-Specify a path to a package.json file to use. Useful for testing different configurations. Should not really need to be
-used in practice.
-
-**Default:** `"./package.json"`
-
-- **JSON:** N/A
-- **CLI:** --package, -p
+> Run the tests in simple mode. This will force a simple line-by-line output. Also in simple mode, the exit code is
+> equal to the number of failed tests. Simple mode is most useful for small terminals or scripting. Only applicable for
+> running the tests.
+> 
+> **Default:** `false`
+> 
+> - **JSON:** "simple"
+> - **CLI:** --simple, -q
 
 #### Base Image
 
-Specify the base image to build the testing image from.
-(debian, ubuntu, etc).
-
-**Default:** `"debian:stable"`
-
-- **JSON:** "base-image"
-- **CLI:** --base-image
-
-*ndt uses apt in it's setup routine for node. You must use an image which contains apt (debian, ubuntu, etc).
+> Specify the base image to build the testing image from. (debian, ubuntu, etc).
+> 
+> **Default:** `"debian:stable"`
+> 
+> - **JSON:** "base-image"
+> - **CLI:** --base-image
+> 
+> *ndt uses apt in it's setup routine for node. You must use an image which contains apt (debian, ubuntu, etc).
 
 -----------------------
 
@@ -239,6 +229,84 @@ Every single LTS version and the *popular* legacy versions.
     ndt -v "patch | lts" -v  "0.12, 0.10"
 
 *You do not need to worry if multiple versions overlap, as they are de-duplicated before running.*
+
+
+-----------------------
+
+## API
+
+ndt also ships with an API for calling the internal functions.
+
+More documentation coming soon. See the example below for usage.
+
+```javascript
+var Promise = require('bluebird');
+var ndt = require('node-docker-test');
+
+var setupRunner, testRunner;
+
+Promise
+    .try(function () {
+        return ndt.versionParser(['6', '5.1']);
+    })
+    .then(function (versions) {
+        setupRunner = new ndt.setupRunner({
+            name: 'custom:runner',
+            baseImage: 'debian:latest',
+            versions: versions,
+            commands: [],
+            reset: false
+        });
+
+        testRunner = new ndt.testRunner({
+            name: 'custom:runner',
+            baseImage: 'debian:latest',
+            versions: versions,
+            commands: ['npm run t'],
+            concurrency: 2
+        });
+
+        setupRunner.on('data', function (data) { console.log(data); });
+
+        testRunner.on('started', function () {
+            console.log('started');
+        });
+
+        testRunner.on('finished', function (results) {
+            console.log('finished', results);
+        });
+
+        testRunner.on('testStarted', function (test) {
+            console.log('testStarted', test);
+        });
+
+        testRunner.on('testData', function (test) {
+            console.log('testData', test);
+        });
+
+        testRunner.on('testFinished', function (test) {
+            console.log('testFinished', test);
+        });
+
+        testRunner.on('runnerStarted', function (runner) {
+            console.log('runnerStarted', runner);
+        });
+
+        testRunner.on('runnerFinished', function (runner) {
+            console.log('runnerFinished', runner);
+        });
+    })
+    .then(function () {
+        return setupRunner.start();
+    })
+    .then(function () {
+        return testRunner.start();
+    })
+    .then(function (results) {
+        //results are here as well
+    });
+
+```
 
 
 -----------------------

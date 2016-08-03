@@ -43,6 +43,18 @@ module.exports = {
         });
     },
 
+    all:function ()
+    {
+        return this._createSimpleJson('all', {
+            commands: 'commands-test',
+            'setup-commands': 'setup-commands-test',
+            'base-image': 'base-image-test',
+            versions: ['4', 5],
+            concurrency: 99,
+            simple: false
+        });
+    },
+
     cleanup: function cleanup()
     {
         this._tmp_directories.forEach(function (tmp_directory)

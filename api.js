@@ -1,12 +1,8 @@
-var ndtApi = {}, Promise;
-
-Promise = require('bluebird');
+var ndtApi = {};
 
 module.exports = ndtApi;
 
-ndtApi.versions = function (versions)
-{
-    return Promise
-        .resolve(versions)
-        .then(require('./lib/utils/VersionKeywords'));
-};
+ndtApi.versionParser = require('./lib/utils/VersionKeywords');
+ndtApi.setupRunner = require('./lib/SetupRunner');
+ndtApi.testRunner = require('./lib/TestRunner');
+ndtApi.Config = require('./lib/utils/Config');

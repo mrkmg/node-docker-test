@@ -2,7 +2,7 @@ var Promise, Config, Run, Setup;
 
 Promise = require('bluebird');
 
-Config = require('./lib/utils/Config');
+Config = require('./lib/utils/Config').parse();
 
 Run = require('./lib/actions/Run');
 Setup = require('./lib/actions/Setup');

@@ -17,7 +17,7 @@ describe('config-parsing', function ()
             process.argv = ['node', 'ndt'];
             process.chdir(TestRepos.allArray());
 
-            this.config = require('../../../lib/utils/Config');
+            this.config = require('../../../lib/utils/Config').parse();
         });
 
         after(function ()
@@ -54,7 +54,7 @@ describe('config-parsing', function ()
             process.argv = ['node', 'ndt'];
             process.chdir(TestRepos.allString());
 
-            this.config = require('../../../lib/utils/Config');
+            this.config = require('../../../lib/utils/Config').parse();
         });
 
         after(function ()
@@ -91,7 +91,7 @@ describe('config-parsing', function ()
             process.argv = ['node', 'ndt'];
             process.chdir(TestRepos.allNumber());
 
-            this.config = require('../../../lib/utils/Config');
+            this.config = require('../../../lib/utils/Config').parse();
         });
 
         after(function ()
@@ -118,7 +118,7 @@ describe('config-parsing', function ()
             process.argv = ['node', 'ndt'];
             process.chdir(TestRepos.allBoolean());
 
-            this.config = require('../../../lib/utils/Config');
+            this.config = require('../../../lib/utils/Config').parse();
         });
 
         after(function ()

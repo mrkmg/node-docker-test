@@ -19,7 +19,7 @@ describe('defaults', function ()
             ];
             process.chdir(TestRepos.defaults());
 
-            this.config = require('../../../lib/utils/Config');
+            this.config = require('../../../lib/utils/Config').parse();
         });
 
         after(function ()
