@@ -248,10 +248,10 @@ var setupRunner, testRunner;
 
 Promise
     .try(function () {
-        return ndt.versionParser(['6', '5.1']);
+        return ndt.VersionParser(['6', '5.1']);
     })
     .then(function (versions) {
-        setupRunner = new ndt.setupRunner({
+        setupRunner = new ndt.SetupRunner({
             name: 'custom:runner',
             baseImage: 'debian:latest',
             versions: versions,
@@ -259,7 +259,7 @@ Promise
             reset: false
         });
 
-        testRunner = new ndt.testRunner({
+        testRunner = new ndt.TestRunner({
             name: 'custom:runner',
             baseImage: 'debian:latest',
             versions: versions,

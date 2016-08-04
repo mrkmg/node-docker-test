@@ -1,26 +1,26 @@
-var expect, VersionKeywords;
+var expect, VersionParser;
 
 expect = require('chai').expect;
 
-VersionKeywords = require('../../lib/utils/VersionKeywords');
+VersionParser = require('../../../lib/utils/VersionParser');
 
-describe('versions-keywords', function ()
+describe('VersionParser', function ()
 {
     before(function ()
     {
-        VersionKeywords.versionListCache = require('../helpers/versions.json');
+        VersionParser.versionListCache = require('../../helpers/versions.json');
     });
 
     after(function ()
     {
-        VersionKeywords.versionListCache = undefined;
+        VersionParser.versionListCache = undefined;
     });
 
     describe('versions', function ()
     {
         it('patch', function ()
         {
-            return VersionKeywords('4.3.1')
+            return VersionParser('4.3.1')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -31,7 +31,7 @@ describe('versions-keywords', function ()
 
         it('minor', function ()
         {
-            return VersionKeywords('4.3')
+            return VersionParser('4.3')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -42,7 +42,7 @@ describe('versions-keywords', function ()
 
         it('major', function ()
         {
-            return VersionKeywords('4')
+            return VersionParser('4')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -56,7 +56,7 @@ describe('versions-keywords', function ()
     {
         it('major', function ()
         {
-            return VersionKeywords('major')
+            return VersionParser('major')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -67,7 +67,7 @@ describe('versions-keywords', function ()
 
         it('minor', function ()
         {
-            return VersionKeywords('minor')
+            return VersionParser('minor')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -78,7 +78,7 @@ describe('versions-keywords', function ()
 
         it('patch', function ()
         {
-            return VersionKeywords('patch')
+            return VersionParser('patch')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -89,7 +89,7 @@ describe('versions-keywords', function ()
 
         it('legacy', function ()
         {
-            return VersionKeywords('legacy')
+            return VersionParser('legacy')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
@@ -105,7 +105,7 @@ describe('versions-keywords', function ()
         {
             it('major', function ()
             {
-                return VersionKeywords('patch | eq:4')
+                return VersionParser('patch | eq:4')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -116,7 +116,7 @@ describe('versions-keywords', function ()
 
             it('minor', function ()
             {
-                return VersionKeywords('patch | eq:4.1')
+                return VersionParser('patch | eq:4.1')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -127,7 +127,7 @@ describe('versions-keywords', function ()
 
             it('patch', function ()
             {
-                return VersionKeywords('patch | eq:4.1.2')
+                return VersionParser('patch | eq:4.1.2')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -141,7 +141,7 @@ describe('versions-keywords', function ()
         {
             it('major', function ()
             {
-                return VersionKeywords('patch | neq:4')
+                return VersionParser('patch | neq:4')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -152,7 +152,7 @@ describe('versions-keywords', function ()
 
             it('minor', function ()
             {
-                return VersionKeywords('patch | neq:4.1')
+                return VersionParser('patch | neq:4.1')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -163,7 +163,7 @@ describe('versions-keywords', function ()
 
             it('patch', function ()
             {
-                return VersionKeywords('patch | neq:4.1.2')
+                return VersionParser('patch | neq:4.1.2')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -177,7 +177,7 @@ describe('versions-keywords', function ()
         {
             it('major', function ()
             {
-                return VersionKeywords('patch | lt:5')
+                return VersionParser('patch | lt:5')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -188,7 +188,7 @@ describe('versions-keywords', function ()
 
             it('minor', function ()
             {
-                return VersionKeywords('patch | lt:4.3')
+                return VersionParser('patch | lt:4.3')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -199,7 +199,7 @@ describe('versions-keywords', function ()
 
             it('patch', function ()
             {
-                return VersionKeywords('patch | lt:4.2.1')
+                return VersionParser('patch | lt:4.2.1')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -213,7 +213,7 @@ describe('versions-keywords', function ()
         {
             it('major', function ()
             {
-                return VersionKeywords('patch | lte:5')
+                return VersionParser('patch | lte:5')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -224,7 +224,7 @@ describe('versions-keywords', function ()
 
             it('minor', function ()
             {
-                return VersionKeywords('patch | lte:4.3')
+                return VersionParser('patch | lte:4.3')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -235,7 +235,7 @@ describe('versions-keywords', function ()
 
             it('patch', function ()
             {
-                return VersionKeywords('patch | lte:4.2.1')
+                return VersionParser('patch | lte:4.2.1')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -249,7 +249,7 @@ describe('versions-keywords', function ()
         {
             it('major', function ()
             {
-                return VersionKeywords('patch | gt:5')
+                return VersionParser('patch | gt:5')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -260,7 +260,7 @@ describe('versions-keywords', function ()
 
             it('minor', function ()
             {
-                return VersionKeywords('patch | gt:5.10')
+                return VersionParser('patch | gt:5.10')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -271,7 +271,7 @@ describe('versions-keywords', function ()
 
             it('patch', function ()
             {
-                return VersionKeywords('patch | gt:5.11.0')
+                return VersionParser('patch | gt:5.11.0')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -285,7 +285,7 @@ describe('versions-keywords', function ()
         {
             it('major', function ()
             {
-                return VersionKeywords('patch | gte:5')
+                return VersionParser('patch | gte:5')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -296,7 +296,7 @@ describe('versions-keywords', function ()
 
             it('minor', function ()
             {
-                return VersionKeywords('patch | gte:5.10')
+                return VersionParser('patch | gte:5.10')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -307,7 +307,7 @@ describe('versions-keywords', function ()
 
             it('patch', function ()
             {
-                return VersionKeywords('patch | gte:5.11.0')
+                return VersionParser('patch | gte:5.11.0')
                     .then(function (versions)
                     {
                         expect(versions).to.eql([
@@ -319,7 +319,7 @@ describe('versions-keywords', function ()
 
         it('lts', function ()
         {
-            return VersionKeywords('major | lts')
+            return VersionParser('major | lts')
                 .then(function (versions)
                 {
                     expect(versions).to.eql([
