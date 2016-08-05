@@ -1,4 +1,4 @@
-var chai, expect, sinon, Docker, ChildProcess, SpawnStubs;
+var chai, expect, sinon, Docker, ChildProcess, SpawnStubs, DockerStubs;
 
 chai = require('chai');
 expect = chai.expect;
@@ -10,6 +10,7 @@ Docker = require('../../../lib/utils/Docker');
 ChildProcess = require('child_process');
 
 SpawnStubs = require('../../helpers/SpawnStubs');
+DockerStubs = require('../../helpers/DockerStubs');
 
 describe('Docker', function ()
 {
@@ -182,4 +183,103 @@ describe('Docker', function ()
             return expect(Docker.commitContainer('sha', 'bad')).to.be.rejected;
         });
     });
+
+    describe('makeNew', function ()
+    {
+        beforeEach(function ()
+        {
+            this.runContainerStub = sinon.stub(Docker, 'runContainer', DockerStubs.runContainer);
+            this.getLastContainerShaStub = sinon.stub(Docker, 'getLastContainerSha', DockerStubs.getLastContainerSha);
+            this.commitContainerStub = sinon.stub(Docker, 'commitContainer', DockerStubs.commitContainer);
+            this._waitStub = sinon.stub(Docker, '_wait', DockerStubs._wait);
+            this.callbackSpy = sinon.spy();
+        });
+
+        afterEach(function ()
+        {
+            this.runContainerStub.restore();
+            this.getLastContainerShaStub.restore();
+            this.commitContainerStub.restore();
+            this._waitStub.restore();
+            this.callbackSpy.reset();
+        });
+
+        describe('exists', function ()
+        {
+            beforeEach(function ()
+            {
+                this.outputCallback = function (){};
+                this.containerExistsStub = sinon.stub(Docker, 'containerExists', DockerStubs.containerExistsTrue);
+                this.runPromise = Docker.makeNew('new', 'command', 'old', this.outputCallback);
+                return this.runPromise;
+            });
+
+            afterEach(function ()
+            {
+                delete this.runPromise;
+                this.containerExistsStub.restore();
+            });
+
+            it('fulfills', function ()
+            {
+                return expect(this.runPromise).to.be.fulfilled;
+            });
+
+            it('call:containerExists', function ()
+            {
+                return expect(this.containerExistsStub).to.have.been.calledWith('new')
+            });
+
+            it('call:runContainer', function ()
+            {
+                return expect(this.runContainerStub).to.have.been.calledWith('new', 'command', this.outputCallback);
+            });
+
+            it('call:commitContainer', function ()
+            {
+                return expect(this.commitContainerStub).to.have.been.calledWith('testsha', 'new');
+            })
+        });
+
+
+
+        describe('exists', function ()
+        {
+            beforeEach(function ()
+            {
+                this.outputCallback = function (){};
+                this.containerExistsStub = sinon.stub(Docker, 'containerExists', DockerStubs.containerExistsFalse);
+                this.runPromise = Docker.makeNew('new', 'command', 'old', this.outputCallback);
+                return this.runPromise;
+            });
+
+            afterEach(function ()
+            {
+                delete this.runPromise;
+                this.containerExistsStub.restore();
+            });
+
+            it('fulfills', function ()
+            {
+                return expect(this.runPromise).to.be.fulfilled;
+            });
+
+            it('call:containerExists', function ()
+            {
+                return expect(this.containerExistsStub).to.have.been.calledWith('new')
+            });
+
+            it('call:runContainer', function ()
+            {
+                return expect(this.runContainerStub).to.have.been.calledWith('old', 'command', this.outputCallback);
+            });
+
+            it('call:commitContainer', function ()
+            {
+                return expect(this.commitContainerStub).to.have.been.calledWith('testsha', 'new');
+            })
+        });
+
+
+    })
 });
