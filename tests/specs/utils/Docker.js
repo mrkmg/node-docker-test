@@ -243,7 +243,7 @@ describe('Docker', function ()
 
 
 
-        describe('exists', function ()
+        describe('doesnt exists', function ()
         {
             beforeEach(function ()
             {

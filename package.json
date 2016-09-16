@@ -4,7 +4,8 @@
   "description": "Test your node project against multiple node versions using docker.",
   "main": "api.js",
   "scripts": {
-    "test": "mocha tests/specs/**/*.js"
+    "test": "mocha tests/specs/**/*.js",
+    "cover": "istanbul cover _mocha 'tests/specs/**/*.js'"
   },
   "bin": {
     "ndt": "./ndt"

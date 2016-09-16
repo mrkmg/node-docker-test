@@ -1,7 +1,5 @@
 # Node Docker Test
 
-**ndt is still under heavy development. Expect potentially breaking changes until version 1 released.**
-
 Test your node project against multiple node versions using docker.
 
 ![Demo]
@@ -35,7 +33,6 @@ override your package.json.
 - [Setup](#setup)
 - [Reset](#reset)
 - [Simple Mode](#simple-mode)
-- [Package File](#package-file)
 - [Base Image](#base-image)
 
 A minimal package.json file:
@@ -232,13 +229,127 @@ Every single LTS version and the *popular* legacy versions.
 *You do not need to worry if multiple versions overlap, as they are de-duplicated before running.*
 
 
------------------------
+-----------------------------
 
 ## API
 
 ndt also ships with an API for calling the internal functions.
 
-More documentation coming soon. See the example below for usage.
+ndt relies heavily on Promises and Events.
+
+### Version Parser
+
+The Version Parser can parse the [ndt version syntax](#versions-syntax) and return an array of valid node versions.
+
+`VersionParser(string|string[] version) -> Promise (string[] versions)`
+
+You can pass either a string, or an array of strings in the ndt version syntax. A promise will resolve with valid nodejs
+versions.
+
+-----------------------------
+
+### Setup Runner
+
+The Setup Runner will build a docker image for use with the Test Runner.
+
+`new SetupRunner(object options)`
+
+**options**
+
+All options are required.
+
+- **name** (string) - A name for the image
+- **baseImage** (string) - The base image to build from.
+- **versions** (string[]) - Valid nodejs versions.
+- **commands** (string[]) - Commands to be executed after the nodejs versions are installed.
+- **reset** (boolean) - Whether to use an existing image under the same name, or to always use the baseImage.
+
+**methods**
+
+`.start() -> Promise()` Start the setup.
+
+- Will resolve is setup is successful.
+- Will reject is setup failed.
+
+**events**
+
+`.on('data', function (string){})` Emitted when the setup outputs to STDOUT or STDERR
+
+-----------------------------
+
+### Test Runner
+
+The Test Runner will run tests on a project in an existing container.
+
+`new TestRunner(object options)`
+
+**options**
+
+All options are required.
+
+- **name** (string) - The name of the image to run the tests in.
+- **versions** (string[]) - Valid nodejs versions.
+- **commands** (string[]) - Commands to execute to run the tests.
+- **concurrency** (int) - Number of concurrent tests to run.
+
+**methods**
+
+`.start() -> Promise(TestResult[])` Start the tests.
+
+- Will resolve with an array of TestResults if the tests ran (Passed or Failed).
+- Will reject if any tests failed to run.
+
+`.stop()` Stop the tests.
+
+- Currently running tests are allowed to finish. Any pending tests are skipped.
+
+**events**
+
+`.on('started'), function (){})` Emitted when the tests runner is started.
+
+`.on('finished'), function (TestResult[]){})` Emitted when the tests runner is finished.
+
+`.on('testStarted'), function (Test){})` Emitted when a test is started. See [Test](#test-object)
+
+`.on('testData'), function (TestData){})` Emitted when a test writes to STDOUT or STDERR. See
+[TestData](#testdata-object)
+
+`.on('testFinished'), function (TestResult){})` Emitted when a test is finished. See [TestResult](#testresult-object)
+
+`.on('runnerStarted'), function (int){})` Emitted when a runner started running tests. The int is the ID of the test
+runner (0-indexed).
+
+`.on('runnerFinished'), function (int){})` Emitted when a runner is finished running tests. The int is the ID of the
+test runner (0-indexed).
+
+
+##### Test Object
+
+    {
+        runner: int,        // The ID of the runner the test was run in.
+        version: string     // The nodejs version the test is running for.
+    }
+
+##### TestData Object
+
+    {
+        runner: int,        // The ID of the runner the test was run on.
+        version: string,    // The nodejs version the test is running for.
+        data: string        // STDOUT or STDERR of the test. Only contains data since the last data event.
+    }
+
+##### TestResult Object
+
+    {
+        runner: int,        // The ID of the runner the test was run on.
+        version: string,    // The nodejs verison the test was run for.
+        passed: bool,       // If the test passed or failed.
+        data: string        // All the STDOUT and STDERR of the test.
+    }
+
+#### API Example
+
+Below is a contrived example of the API.
 
 ```javascript
 var Promise = require('bluebird');
@@ -261,7 +372,6 @@ Promise
 
         testRunner = new ndt.TestRunner({
             name: 'custom:runner',
-            baseImage: 'debian:latest',
             versions: versions,
             commands: ['npm run t'],
             concurrency: 2
@@ -305,10 +415,13 @@ Promise
     })
     .then(function (results) {
         //results are here as well
+    })
+    .catch(function (error)
+    {
+        console.error('There was an error', error);
     });
 
 ```
-
 
 -----------------------
 
@@ -326,12 +439,6 @@ Promise
   see your distribution's documentation for details on how to setup and use docker.
 - Each command in `setup-commands` and `commands` will be joined with the "&&" operator. Therefor if any command fails,
   the entire setup or test is stopped.
-
-## TODO Before Version 1
-
-- [ ] Add tests
-- [x] Add quiet mode for testing
-- [ ] ???
 
 ## License
 
