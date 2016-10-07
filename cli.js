@@ -2,7 +2,7 @@ var Promise, Config, Run, Setup;
 
 Promise = require('bluebird');
 
-Config = require('./lib/utils/Config').parse();
+Config = require('./lib/utils/Config');
 
 Run = require('./lib/actions/Run');
 Setup = require('./lib/actions/Setup');
@@ -10,13 +10,15 @@ Setup = require('./lib/actions/Setup');
 return Promise
     .try(function ()
     {
-        if (Config.setup)
+        var config = Config.parse();
+
+        if (config.setup)
         {
-            return Setup(Config);
+            return Setup(config);
         }
         else
         {
-            return Run(Config);
+            return Run(config);
         }
     })
     .then(function ()
