@@ -20,15 +20,15 @@
     "pad": "^1.0.0",
     "semver": "^5.3.0",
     "semver-loose": "^0.2.0",
-    "yargs": "^4.8.1"
+    "yargs": "^6.5.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
+    "chai-as-promised": "^6.0.0",
     "istanbul": "^0.4.4",
     "mocha": "^3.0.0",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
-    "tmp": "0.0.28"
+    "tmp": "0.0.31"
   }
 }
