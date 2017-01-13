@@ -42,7 +42,7 @@ describe('defaults', function ()
 
         it('versions', function ()
         {
-            expect(this.config.versions).to.eql(['major', '0.12']);
+            expect(this.config.versions).to.eql(['major']);
         });
 
         it('concurrency', function ()
