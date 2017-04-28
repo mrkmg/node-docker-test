@@ -1,6 +1,6 @@
 {
   "name": "node-docker-test",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Test your node project against multiple node versions using docker.",
   "main": "api.js",
   "scripts": {
@@ -10,7 +10,11 @@
   "bin": {
     "ndt": "./ndt"
   },
-  "author": "",
+  "author": {
+    "name": "Kevin Gravier",
+    "email": "kevin@mrkmg.com",
+    "url": "https://github.com/mrkmg"
+  },
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
@@ -20,15 +24,15 @@
     "pad": "^1.0.0",
     "semver": "^5.3.0",
     "semver-loose": "^0.2.0",
-    "yargs": "^6.5.0"
+    "yargs": "^7.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "istanbul": "^0.4.4",
     "mocha": "^3.0.0",
-    "sinon": "^1.17.5",
+    "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
-    "tmp": "0.0.31"
+    "tmp": "^0.0.31"
   }
 }
