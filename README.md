@@ -75,6 +75,7 @@ ndt \
     -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
     -b "centos" \
     -p "yum" \
+    --yarn \
     --reset
 ```
 
@@ -85,7 +86,8 @@ ndt \
     -x "npm run setup-tests" "npm test" \
     -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
     -c 2 \
-    --simple
+    --simple \
+    --yarn
 ```
 
 #### Commands
@@ -168,8 +170,7 @@ change the base image, remember to use --reset during setup.
 > - **JSON:** "base-image"
 > - **CLI:** --base-image, -b
 > 
-> *ndt by default uses apt-get as the package manager. If you use a yum based distro, like centos or fedora, you will
-> will need to update the package-manager options as well*
+> *ndt by default uses apt-get as the package manager. If you use a yum based distro, like centos or fedora, you will need to update the package-manager options as well*
 
 #### Package Manager
 
@@ -181,6 +182,18 @@ change the base image, remember to use --reset during setup.
 >
 > - **JSON:** "package-manager"
 > - **CLI:** --package-manager, -p
+
+#### Yarn
+
+> Use yarn instead of npm for installing dependencies.
+>
+> **Default:** `false`
+>
+> - **JSON:**: "yarn"
+> - **CLI:**: --yarn, -y
+>
+> *yarn will be installed if --yarn is passed at setup. If yarn was not installed during setup and used during testing, all tests will fail.*
+
 
 -----------------------
 
@@ -431,8 +444,7 @@ Promise
     .then(function (results) {
         //results are here as well
     })
-    .catch(function (error)
-    {
+    .catch(function (error) {
         console.error('There was an error', error);
     });
 
