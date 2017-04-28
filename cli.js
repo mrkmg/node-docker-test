@@ -4,35 +4,28 @@ Promise = require('bluebird');
 
 Config = require('./lib/utils/Config');
 
-Run = require('./lib/actions/Run');
+Run   = require('./lib/actions/Run');
 Setup = require('./lib/actions/Setup');
 
 return Promise
-    .try(function ()
-    {
+    .try(function () {
         var config = Config.parse();
 
-        if (config.setup)
-        {
+        if (config.setup) {
             return Setup(config);
         }
-        else
-        {
+        else {
             return Run(config);
         }
     })
-    .then(function ()
-    {
+    .then(function () {
         process.exit(0);
     })
-    .catch(function (e)
-    {
-        if (process.env.DEBUG)
-        {
+    .catch(function (e) {
+        if (process.env.DEBUG) {
             console.error(e);
         }
-        else
-        {
+        else {
             console.error(e.message);
         }
         process.exit(255);

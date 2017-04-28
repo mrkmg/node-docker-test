@@ -1,5 +1,5 @@
 var Promise = require('bluebird');
-var ndt = require('./api.js');
+var ndt     = require('./api.js');
 
 var setupRunner, testRunner;
 
@@ -10,7 +10,7 @@ Promise
     .then(function (versions) {
         setupRunner = new ndt.SetupRunner({
             name: 'custom:runner',
-            baseImage: 'debian:latest',
+            'base-image': 'debian:latest',
             versions: versions,
             commands: [],
             reset: false
@@ -23,7 +23,9 @@ Promise
             concurrency: 2
         });
 
-        setupRunner.on('data', function (data) { console.log(data); });
+        setupRunner.on('data', function (data) {
+            console.log(data);
+        });
 
         testRunner.on('started', function () {
             console.log('started');
@@ -57,8 +59,7 @@ Promise
     //     return setupRunner.start();
     // })
     .then(function () {
-        setTimeout(function ()
-        {
+        setTimeout(function () {
             testRunner.stop();
         }, 1000);
         return testRunner.start();
