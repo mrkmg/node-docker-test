@@ -18,7 +18,7 @@ describe('Docker', function ()
     {
         beforeEach(function ()
         {
-            this.spawnStub = sinon.stub(ChildProcess, 'spawn', SpawnStubs.containerExists);
+            this.spawnStub = sinon.stub(ChildProcess, 'spawn').callsFake(SpawnStubs.containerExists);
         });
 
         afterEach(function ()
@@ -52,13 +52,13 @@ describe('Docker', function ()
 
         it('success', function ()
         {
-            this.spawnStub = sinon.stub(ChildProcess, 'spawn', SpawnStubs.lastContainerShaGood);
+            this.spawnStub = sinon.stub(ChildProcess, 'spawn').callsFake(SpawnStubs.lastContainerShaGood);
             return expect(Docker.getLastContainerSha()).to.eventually.equal('stdout');
         });
 
         it('failed', function ()
         {
-            this.spawnStub = sinon.stub(ChildProcess, 'spawn', SpawnStubs.lastContainerShaBad);
+            this.spawnStub = sinon.stub(ChildProcess, 'spawn').callsFake(SpawnStubs.lastContainerShaBad);
             return expect(Docker.getLastContainerSha()).to.be.rejectedWith(Error, 'Failed to get last SHA');
         })
     });
@@ -67,7 +67,7 @@ describe('Docker', function ()
     {
         beforeEach(function ()
         {
-            this.spawnStub = sinon.stub(ChildProcess, 'spawn', SpawnStubs.runContainer);
+            this.spawnStub = sinon.stub(ChildProcess, 'spawn').callsFake(SpawnStubs.runContainer);
         });
 
         afterEach(function ()
@@ -113,7 +113,7 @@ describe('Docker', function ()
     {
         beforeEach(function ()
         {
-            this.spawnStub = sinon.stub(ChildProcess, 'spawn', SpawnStubs.runContainerWithCopy);
+            this.spawnStub = sinon.stub(ChildProcess, 'spawn').callsFake(SpawnStubs.runContainerWithCopy);
         });
 
         afterEach(function ()
@@ -159,7 +159,7 @@ describe('Docker', function ()
     {
         beforeEach(function ()
         {
-            this.spawnStub = sinon.stub(ChildProcess, 'spawn', SpawnStubs.commitContainer);
+            this.spawnStub = sinon.stub(ChildProcess, 'spawn').callsFake(SpawnStubs.commitContainer);
         });
 
         afterEach(function ()
@@ -188,10 +188,10 @@ describe('Docker', function ()
     {
         beforeEach(function ()
         {
-            this.runContainerStub = sinon.stub(Docker, 'runContainer', DockerStubs.runContainer);
-            this.getLastContainerShaStub = sinon.stub(Docker, 'getLastContainerSha', DockerStubs.getLastContainerSha);
-            this.commitContainerStub = sinon.stub(Docker, 'commitContainer', DockerStubs.commitContainer);
-            this._waitStub = sinon.stub(Docker, '_wait', DockerStubs._wait);
+            this.runContainerStub = sinon.stub(Docker, 'runContainer').callsFake(DockerStubs.runContainer);
+            this.getLastContainerShaStub = sinon.stub(Docker, 'getLastContainerSha').callsFake(DockerStubs.getLastContainerSha);
+            this.commitContainerStub = sinon.stub(Docker, 'commitContainer').callsFake(DockerStubs.commitContainer);
+            this._waitStub = sinon.stub(Docker, '_wait').callsFake(DockerStubs._wait);
             this.callbackSpy = sinon.spy();
         });
 
@@ -209,7 +209,7 @@ describe('Docker', function ()
             beforeEach(function ()
             {
                 this.outputCallback = function (){};
-                this.containerExistsStub = sinon.stub(Docker, 'containerExists', DockerStubs.containerExistsTrue);
+                this.containerExistsStub = sinon.stub(Docker, 'containerExists').callsFake(DockerStubs.containerExistsTrue);
                 this.runPromise = Docker.makeNew('new', 'command', 'old', this.outputCallback);
                 return this.runPromise;
             });
@@ -248,7 +248,7 @@ describe('Docker', function ()
             beforeEach(function ()
             {
                 this.outputCallback = function (){};
-                this.containerExistsStub = sinon.stub(Docker, 'containerExists', DockerStubs.containerExistsFalse);
+                this.containerExistsStub = sinon.stub(Docker, 'containerExists').callsFake(DockerStubs.containerExistsFalse);
                 this.runPromise = Docker.makeNew('new', 'command', 'old', this.outputCallback);
                 return this.runPromise;
             });
