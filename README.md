@@ -73,6 +73,8 @@ ndt \
     --setup \
     -s "apt-get install -y curl" "mkdir -p /some/needed/folder" \
     -v "minor | lts" "major" "patch | gte:4.0 | lte: 4.1" "0.12" "5.1.0" \
+    -b "centos" \
+    -p "yum" \
     --reset
 ```
 
@@ -108,7 +110,7 @@ ndt \
 
 > An array of versions. See [Versions Syntax](#versions-syntax)
 > 
-> **Default:** `["major", "0.12"]`
+> **Default:** `["major"]`
 > 
 > - **JSON:** "versions"
 > - **CLI:** --versions, -v
@@ -158,14 +160,27 @@ ndt \
 
 #### Base Image
 
-> Specify the base image to build the testing image from. (debian, ubuntu, etc).
+> Specify the base image to build the testing image from. (debian, ubuntu, etc). Only applicable during setup. If you
+change the base image, remember to use --reset during setup.
 > 
 > **Default:** `"debian:stable"`
 > 
 > - **JSON:** "base-image"
-> - **CLI:** --base-image
+> - **CLI:** --base-image, -b
 > 
-> *ndt uses apt in it's setup routine for node. You must use an image which contains apt (debian, ubuntu, etc).
+> *ndt by default uses apt-get as the package manager. If you use a yum based distro, like centos or fedora, you will
+> will need to update the package-manager options as well*
+
+#### Package Manager
+
+> Specify the package manager to use when building the testing image.
+>
+> **Default:** "apt-get"
+>
+> **Valid Values:** "apt-get" or "yum"
+>
+> - **JSON:** "package-manager"
+> - **CLI:** --package-manager, -p
 
 -----------------------
 

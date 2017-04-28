@@ -20,9 +20,10 @@ describe('cli-parsing', function ()
                 '-s', 'setup-command1', 'setup-command2',
                 '-v', 'version1', 'version2',
                 '-c', '99',
+                '-b', 'image:tag',
+                "-p", "pkgmgr",
                 '--setup',
-                '--reset',
-                '--base-image', 'three'
+                '--reset'
             ];
             process.chdir(TestRepos.defaults());
 
@@ -66,6 +67,16 @@ describe('cli-parsing', function ()
         {
             expect(this.config.reset).to.equal(true);
         });
+
+        it('base-image', function ()
+        {
+            expect(this.config['base-image']).to.equal('image:tag');
+        });
+
+        it('package-manager', function ()
+        {
+            expect(this.config['package-manager']).to.equal('pkgmgr');
+        });
     });
 
     describe('with-config', function ()
@@ -81,9 +92,10 @@ describe('cli-parsing', function ()
                 '-s', 'setup-command1', 'setup-command2',
                 '-v', 'version1', 'version2',
                 '-c', '80',
+                '-b', 'image:tag',
+                "-p", "pkgmgr",
                 '--setup',
-                '--reset',
-                '--base-image', 'three'
+                '--reset'
             ];
             process.chdir(TestRepos.all());
 
@@ -126,6 +138,16 @@ describe('cli-parsing', function ()
         it('reset', function ()
         {
             expect(this.config.reset).to.equal(true);
+        });
+
+        it('base-image', function ()
+        {
+            expect(this.config['base-image']).to.equal('image:tag');
+        });
+
+        it('package-manager', function ()
+        {
+            expect(this.config['package-manager']).to.equal('pkgmgr');
         });
     })
 });

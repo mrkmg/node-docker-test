@@ -58,6 +58,16 @@ describe('defaults', function ()
         it('reset', function ()
         {
             expect(this.config.reset).to.equal(false);
+        });
+
+        it('base-image', function ()
+        {
+            expect(this.config['base-image']).to.equal('debian:stable');
+        });
+
+        it('package-manager', function ()
+        {
+            expect(this.config['package-manager']).to.equal('apt-get');
         })
     });
 });

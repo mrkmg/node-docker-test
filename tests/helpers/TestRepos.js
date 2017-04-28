@@ -15,7 +15,8 @@ module.exports = {
         return this._createSimpleJson('string', {
             commands: "commands-test",
             'setup-commands': 'setup-commands-test',
-            'base-image': 'base-image-test'
+            'base-image': 'base-image-test',
+            'package-manager': "package-manager-test"
         });
     },
 
@@ -49,6 +50,7 @@ module.exports = {
             commands: 'commands-test',
             'setup-commands': 'setup-commands-test',
             'base-image': 'base-image-test',
+            'package-manager': "package-manager-test",
             versions: ['4', 5],
             concurrency: 99,
             simple: false

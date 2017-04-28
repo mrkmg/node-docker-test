@@ -79,6 +79,11 @@ describe('config-parsing', function ()
         {
             expect(this.config['base-image']).to.equal('base-image-test');
         });
+
+        it('package-manager', function ()
+        {
+            expect(this.config['package-manager']).to.equal('package-manager-test');
+        });
     });
 
     describe('integers', function ()
