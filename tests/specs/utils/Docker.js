@@ -69,7 +69,7 @@ describe('Docker', function () {
         it('spawn call', function () {
             var outputSpy = sinon.spy();
             Docker.runContainer('good', ['command1', 'command2'], outputSpy);
-            return expect(this.spawnStub).to.have.been.calledWith('docker', ['run', '-i', 'good', '/bin/bash', '-c', ['command1', 'command2']]);
+            return expect(this.spawnStub).to.have.been.calledWith('docker', ['run', '-v', 'ndt-npm:/root/.npm', '-i', 'good', '/bin/bash', '-c', ['command1', 'command2']]);
         });
 
         it('resolves', function () {
@@ -108,7 +108,7 @@ describe('Docker', function () {
         it('spawn call', function () {
             var outputSpy = sinon.spy();
             Docker.runContainerWithCopy('good', ['command1', 'command2'], outputSpy)
-            return expect(this.spawnStub).to.have.been.calledWith('docker', ['run', '-i', '--rm', '-v', process.cwd() + ':/test-src/:ro', 'good', '/bin/bash', '-c', ['command1', 'command2']]);
+            return expect(this.spawnStub).to.have.been.calledWith('docker', ['run', '-v', 'ndt-npm:/root/.npm', '-i', '--rm', '-v', process.cwd() + ':/test-src/:ro', 'good', '/bin/bash', '-c', ['command1', 'command2']]);
         });
 
         it('resolves', function () {

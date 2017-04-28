@@ -18,7 +18,7 @@ module.exports = {
     runContainer: function (app, args) {
         return {
             on: function (type, cb) {
-                if (args[2] == 'good') {
+                if (args[4] == 'good') {
                     cb(0);
                 } else {
                     cb(1);
@@ -26,14 +26,14 @@ module.exports = {
             },
             stdout: {
                 on: function (type, cb) {
-                    if (args[2] == 'good') {
+                    if (args[4] == 'good') {
                         cb('stdout');
                     }
                 }
             },
             stderr: {
                 on: function (type, cb) {
-                    if (args[2] != 'good') {
+                    if (args[4] != 'good') {
                         cb('stderr');
                     }
                 }
@@ -43,7 +43,7 @@ module.exports = {
     runContainerWithCopy: function (app, args) {
         return {
             on: function (type, cb) {
-                if (args[5] == 'good') {
+                if (args[7] == 'good') {
                     cb(0);
                 } else {
                     cb(1);
@@ -51,14 +51,14 @@ module.exports = {
             },
             stdout: {
                 on: function (type, cb) {
-                    if (args[5] == 'good') {
+                    if (args[7] == 'good') {
                         cb('stdout');
                     }
                 }
             },
             stderr: {
                 on: function (type, cb) {
-                    if (args[5] != 'good') {
+                    if (args[7] != 'good') {
                         cb('stderr');
                     }
                 }
