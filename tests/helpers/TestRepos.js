@@ -1,3 +1,8 @@
+/*
+ Written by Kevin Gravier <https://github.com/mrkmg>
+ Part of the node-docker-test project. <http://github.com/mrkmg/node-docker-test>
+ MIT Licence
+ */
 var fs, tmp;
 
 fs  = require('fs');
