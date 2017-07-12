@@ -27,7 +27,7 @@
     "yargs": "^8.0.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.0",
     "chai-as-promised": "^6.0.0",
     "istanbul": "^0.4.4",
     "mocha": "^3.0.0",
