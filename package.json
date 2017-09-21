@@ -35,5 +35,10 @@
     "sinon": "^3.3.0",
     "sinon-chai": "^2.13.0",
     "tmp": "^0.0.33"
+  },
+  "config": {
+    "ndt": {
+      "versions": ["minor"]
+    }
   }
 }
