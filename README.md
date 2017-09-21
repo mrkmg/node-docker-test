@@ -160,6 +160,17 @@ ndt \
 > - **JSON:** "simple"
 > - **CLI:** --simple, -q
 
+#### JSON Mode
+
+> Run the tests in JSON mode. This mode will output a json representation of the results to STDOUT. A very small
+> amount of status data will be outputted to STDERR. This mode can be used to interface to other programming or
+> scripting tools.
+>
+> **Default** `false`
+>
+> - **JSON:** "json"
+> - **CLI:** --json, -j
+
 #### Base Image
 
 > Specify the base image to build the testing image from. (debian, ubuntu, etc). Only applicable during setup. If you
