@@ -22,7 +22,7 @@
     "bluebird": "^3.5.0",
     "extend": "^3.0.1",
     "lodash.pick": "^4.4.0",
-    "pad": "^1.1.0",
+    "pad": "^2.0.0",
     "semver": "^5.4.1",
     "semver-loose": "^0.2.0",
     "yargs": "^9.0.1"
