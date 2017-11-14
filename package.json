@@ -19,26 +19,28 @@
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
-    "bluebird": "^3.5.0",
+    "bluebird": "^3.5.1",
     "extend": "^3.0.1",
     "lodash.pick": "^4.4.0",
-    "pad": "^1.1.0",
+    "pad": "^2.0.3",
     "semver": "^5.4.1",
     "semver-loose": "^0.2.0",
-    "yargs": "^9.0.1"
+    "yargs": "^10.0.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.5.3",
-    "sinon": "^3.3.0",
-    "sinon-chai": "^2.13.0",
+    "mocha": "^4.0.1",
+    "sinon": "^4.1.2",
+    "sinon-chai": "^2.14.0",
     "tmp": "^0.0.33"
   },
   "config": {
     "ndt": {
-      "versions": ["minor"]
+      "versions": [
+        "minor"
+      ]
     }
   }
 }
